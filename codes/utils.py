@@ -1,31 +1,3 @@
-"""
- *  MIT License
- *
- *  Copyright (c) 2019 Arpit Aggarwal Markose Jacob
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a
- *  copy of this software and associated documentation files (the "Software"),
- *  to deal in the Software without restriction, including without
- *  limitation the rights to use, copy, modify, merge, publish, distribute,
- *  sublicense, and/or sell copies of the Software, and to permit persons to
- *  whom the Software is furnished to do so, subject to the following
- *  conditions:
- *
- *  The above copyright notice and this permission notice shall be included
- *  in all copies or substantial portions of the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- *  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- *  DEALINGS IN THE SOFTWARE.
-"""
-
-# header files
-import numpy as np
-
 # class for Dijkstra
 class Dijkstra(object):
     # init function
@@ -37,12 +9,76 @@ class Dijkstra(object):
         self.clearance = clearance
         self.radius = radius
 
+    # calculate triangle area
+    def area(self, x1, y1, x2, y2, x3, y3):
+        return np.abs((x1*(y2-y3) + x2*(y3-y1)+ x3*(y1-y2))/2.0)  
+        
     # move is valid 
     def IsValid(self, currRow, currCol):
         return (currRow >= 1 and currRow <= self.numRows and currCol >= 1 and currCol <= self.numCols)
 
     # checks for an obstacle
     def IsObstacle(self, row, col):
+        # check circle
+        dist1 = ((row - 150)*(row - 150) + (col - 225)*(col - 225)) - 625
+        
+        # check eclipse
+        dist2 = ((((row - 100)*(row - 100))/400) + (((col - 150)*(col - 150))/1600)) - 1
+        
+        # check triangles
+        area1 = self.area(120, 20, 150, 50, 185, 25)
+        area2 = self.area(row, col, 150, 50, 185, 25)
+        area3 = self.area(120, 20, row, col, 185, 25)
+        area4 = self.area(120, 20, 150, 50, row, col)
+        dist3 = (area2 + area3 + area4) - area1
+        area1 = self.area(150, 50, 185, 25, 185, 75)
+        area2 = self.area(row, col, 185, 25, 185, 75)
+        area3 = self.area(150, 50, row, col, 185, 75)
+        area4 = self.area(150, 50, 185, 25, row, col)
+        dist4 = (area2 + area3 + area4) - area1
+        
+        # check rhombus
+        area1 = self.area(10, 225, 25, 200, 40, 225)
+        area2 = self.area(row, col, 25, 200, 40, 225)
+        area3 = self.area(10, 225, row, col, 40, 225)
+        area4 = self.area(10, 225, 25, 200, row, col)
+        dist5 = (area2 + area3 + area4) - area1
+        area1 = self.area(10, 225, 25, 250, 40, 225)
+        area2 = self.area(row, col, 25, 250, 40, 225)
+        area3 = self.area(10, 225, row, col, 40, 225)
+        area4 = self.area(10, 225, 25, 250, row, col)
+        dist6 = (area2 + area3 + area4) - area1
+        
+        # check square
+        area1 = self.area(120, 75, 150, 50, 185, 75)
+        area2 = self.area(row, col, 150, 50, 185, 75)
+        area3 = self.area(120, 75, row, col, 185, 75)
+        area4 = self.area(120, 75, 150, 50, row, col)
+        dist7 = (area2 + area3 + area4) - area1
+        area1 = self.area(120, 75, 150, 100, 185, 75)
+        area2 = self.area(row, col, 150, 100, 185, 75)
+        area3 = self.area(120, 75, row, col, 185, 75)
+        area4 = self.area(120, 75, 150, 100, row, col)
+        dist8 = (area2 + area3 + area4) - area1
+        
+        # check rod
+        area1 = self.area(30, 95, 67.5, 30.05, 76.15, 35.5)
+        area2 = self.area(row, col, 67.5, 30.05, 76.15, 35.5)
+        area3 = self.area(30, 95, row, col, 76.15, 35.5)
+        area4 = self.area(30, 95, 67.5, 30.05, row, col)
+        dist9 = (area2 + area3 + area4) - area1
+        if(dist9 < 1e-5):
+            dist9 = 0
+        area1 = self.area(30, 95, 76.15, 35.5, 38.66, 100)
+        area2 = self.area(row, col, 76.15, 35.5, 38.66, 100)
+        area3 = self.area(30, 95, row, col, 38.66, 100)
+        area4 = self.area(30, 95, 76.15, 35.5, row, col)
+        dist10 = (area2 + area3 + area4) - area1
+        if(dist10 < 1e-5):
+            dist10 = 0
+        
+        if(dist1 <= 0 or dist2 <= 0 or dist3 == 0 or dist4 == 0 or dist5 ==0 or dist6 == 0 or dist7 == 0 or dist8 == 0 or dist9 == 0 or dist10 == 0):
+            return True
         return False
 
     # action move left
