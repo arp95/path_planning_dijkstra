@@ -20,59 +20,80 @@ class Dijkstra(object):
     # checks for an obstacle
     def IsObstacle(self, row, col):
         # check circle
-        dist1 = ((row - 150)*(row - 150) + (col - 225)*(col - 225)) - 625
+        dist1 = ((row - 150)*(row - 150) + (col - 225)*(col - 225)) - ((25 + self.clearance + self.radius)*(25 + self.clearance + self.radius))
         
         # check eclipse
-        dist2 = ((((row - 100)*(row - 100))/400) + (((col - 150)*(col - 150))/1600)) - 1
+        dist2 = ((((row - 100)*(row - 100))/((20 + self.clearance + self.radius)*(20 + self.clearance + self.radius))) + (((col - 150)*(col - 150))/((40 + self.clearance + self.radius)*(40 + self.clearance + self.radius)))) - 1
         
         # check triangles
-        area1 = self.area(120, 20, 150, 50, 185, 25)
-        area2 = self.area(row, col, 150, 50, 185, 25)
+        a1 = (self.clearance + self.radius)
+        a2 = a1/0.71434
+        a3 = a1/0.0769
+        a = (1.4*(self.clearance + self.radius))
+        area1 = self.area(120, 20, 150 - a, 50, 185, 25)
+        area2 = self.area(row, col, 150 - a, 50, 185, 25)
         area3 = self.area(120, 20, row, col, 185, 25)
-        area4 = self.area(120, 20, 150, 50, row, col)
+        area4 = self.area(120, 20, 150 - a, 50, row, col)
         dist3 = (area2 + area3 + area4) - area1
-        area1 = self.area(150, 50, 185, 25, 185, 75)
-        area2 = self.area(row, col, 185, 25, 185, 75)
-        area3 = self.area(150, 50, row, col, 185, 75)
-        area4 = self.area(150, 50, 185, 25, row, col)
+        if(dist3 < 1e-5):
+            dist3 = 0
+        area1 = self.area(150 - a, 50, 185 + a1, 25, 185 + a1, 75 + a2)
+        area2 = self.area(row, col, 185 + a1, 25, 185 + a1, 75 + a2)
+        area3 = self.area(150 - a, 50, row, col, 185 + a1, 75 + a2)
+        area4 = self.area(150 - a, 50, 185 + a1, 25, row, col)
         dist4 = (area2 + area3 + area4) - area1
+        if(dist4 < 1e-5):
+            dist4 = 0
         
         # check rhombus
-        area1 = self.area(10, 225, 25, 200, 40, 225)
-        area2 = self.area(row, col, 25, 200, 40, 225)
-        area3 = self.area(10, 225, row, col, 40, 225)
-        area4 = self.area(10, 225, 25, 200, row, col)
+        a = (1.4*(self.clearance + self.radius))
+        area1 = self.area(10 - a, 225, 25, 200 - a, 40 + a, 225)
+        area2 = self.area(row, col, 25, 200 - a, 40 + a, 225)
+        area3 = self.area(10 - a, 225, row, col, 40 + a, 225)
+        area4 = self.area(10 - a, 225, 25, 200 - a, row, col)
         dist5 = (area2 + area3 + area4) - area1
-        area1 = self.area(10, 225, 25, 250, 40, 225)
-        area2 = self.area(row, col, 25, 250, 40, 225)
-        area3 = self.area(10, 225, row, col, 40, 225)
-        area4 = self.area(10, 225, 25, 250, row, col)
+        if(dist5 < 1e-5):
+            dist5 = 0
+        area1 = self.area(10 - a, 225, 25, 250 + a, 40 + a, 225)
+        area2 = self.area(row, col, 25, 250 + a, 40 + a, 225)
+        area3 = self.area(10 - a, 225, row, col, 40 + a, 225)
+        area4 = self.area(10 - a, 225, 25, 250 + a, row, col)
         dist6 = (area2 + area3 + area4) - area1
+        if(dist6 < 1e-5):
+            dist6 = 0
         
         # check square
-        area1 = self.area(120, 75, 150, 50, 185, 75)
-        area2 = self.area(row, col, 150, 50, 185, 75)
-        area3 = self.area(120, 75, row, col, 185, 75)
-        area4 = self.area(120, 75, 150, 50, row, col)
+        a1 = (self.clearance + self.radius)
+        a2 = a1/0.71434
+        a = (1.4*(self.clearance + self.radius))
+        area1 = self.area(120 - a, 75, 150 - a, 50, 185 + a1, 75 + a2)
+        area2 = self.area(row, col, 150 - a, 50, 185 + a1, 75 + a2)
+        area3 = self.area(120 - a, 75, row, col, 185 + a1, 75 + a2)
+        area4 = self.area(120 - a, 75, 150 - a, 50, row, col)
         dist7 = (area2 + area3 + area4) - area1
-        area1 = self.area(120, 75, 150, 100, 185, 75)
-        area2 = self.area(row, col, 150, 100, 185, 75)
-        area3 = self.area(120, 75, row, col, 185, 75)
-        area4 = self.area(120, 75, 150, 100, row, col)
+        if(dist7 < 1e-5):
+            dist7 = 0
+        area1 = self.area(120 - a, 75, 150, 100 + a, 185 + a1, 75 + a2)
+        area2 = self.area(row, col, 150, 100 + a, 185 + a1, 75 + a2)
+        area3 = self.area(120 - a, 75, row, col, 185 + a1, 75 + a2)
+        area4 = self.area(120 - a, 75, 150, 100 + a, row, col)
         dist8 = (area2 + area3 + area4) - area1
+        if(dist8 < 1e-5):
+            dist8 = 0
         
         # check rod
-        area1 = self.area(30, 95, 67.5, 30.05, 76.15, 35.5)
-        area2 = self.area(row, col, 67.5, 30.05, 76.15, 35.5)
-        area3 = self.area(30, 95, row, col, 76.15, 35.5)
-        area4 = self.area(30, 95, 67.5, 30.05, row, col)
+        a = (1.4*(self.clearance + self.radius))
+        area1 = self.area(30 - a, 95, 67.5, 30.05 - a, 76.15 + a, 35.5)
+        area2 = self.area(row, col, 67.5, 30.05 - a, 76.15 + a, 35.5)
+        area3 = self.area(30 - a, 95, row, col, 76.15 + a, 35.5)
+        area4 = self.area(30 - a, 95, 67.5, 30.05 - a, row, col)
         dist9 = (area2 + area3 + area4) - area1
         if(dist9 < 1e-5):
             dist9 = 0
-        area1 = self.area(30, 95, 76.15, 35.5, 38.66, 100)
-        area2 = self.area(row, col, 76.15, 35.5, 38.66, 100)
-        area3 = self.area(30, 95, row, col, 38.66, 100)
-        area4 = self.area(30, 95, 76.15, 35.5, row, col)
+        area1 = self.area(30 - a, 95, 76.15 + a, 35.5, 38.66, 100 + a)
+        area2 = self.area(row, col, 76.15 + a, 35.5, 38.66, 100 + a)
+        area3 = self.area(30 - a, 95, row, col, 38.66, 100 + a)
+        area4 = self.area(30 - a, 95, 76.15 + a, 35.5, row, col)
         dist10 = (area2 + area3 + area4) - area1
         if(dist10 < 1e-5):
             dist10 = 0
@@ -202,3 +223,20 @@ class Dijkstra(object):
         backtrack_states.append(self.start)
         backtrack_states = list(reversed(backtrack_states))      
         return (explored_states, backtrack_states, distMap[self.goal])
+    
+    # animate path
+    def animate(self, explored_states, backtrack_states, path):
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter(str(path), fourcc, 20.0, (300, 200))
+        image = np.zeros((200, 300, 3), dtype=np.uint8)
+        count = 0
+        for state in explored_states:
+            image[200 - state[0], state[1] - 1] = (255, 255, 255)
+            if(count%100 == 0):
+                out.write(image)
+            count = count + 1
+
+        for state in backtrack_states:
+            image[200 - state[0], state[1] - 1] = (0, 0, 255)
+            out.write(image)
+        out.release()
