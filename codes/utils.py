@@ -19,7 +19,7 @@ class Dijkstra(object):
         
     # move is valid 
     def IsValid(self, currRow, currCol):
-        return (currRow >= (1 + self.radius) and currRow <= (self.numRows - self.radius) and currCol >= (1 + self.radius) and currCol <= (self.numCols - self.radius))
+        return (currRow >= (1 + self.radius + self.clearance) and currRow <= (self.numRows - self.radius - self.clearance) and currCol >= (1 + self.radius + self.clearance) and currCol <= (self.numCols - self.radius - self.clearance))
 
     # checks for an obstacle
     def IsObstacle(self, row, col):
