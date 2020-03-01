@@ -43,10 +43,16 @@ if(len(args) > 6):
     dijkstra = Dijkstra(start, goal, clearance, radius)
 
     # find path
-    if(dijkstra.IsValid(start[0], start[1]) and dijkstra.IsValid(goal[0], goal[1]) and    dijkstra.IsObstacle(start[0], start[1]) == False and dijkstra.IsObstacle(goal[0], goal[1]) == False):
+    if(dijkstra.IsValid(start[0], start[1]) and dijkstra.IsValid(goal[0], goal[1]) and dijkstra.IsObstacle(start[0], start[1]) == False and dijkstra.IsObstacle(goal[0], goal[1]) == False):
         (explored_states, backtrack_states, distance_from_start_to_goal) = dijkstra.Dijkstra()
-        print("Distance is: " + str(distance_from_start_to_goal))
+        dijkstra.animate(explored_states, backtrack_states, "./dijkstra_rigid.avi")
+    
+        # print optimal path found or not
+        if(distance_from_start_to_goal == float('inf')):
+            print("No optimal path found.")
+        else:
+            print("Optimal path found.")
     else:
-        print("Invalid state. Please enter again.")
+        print("Invalid state entered. Please run the file again.")
 else:
     print("Please check README.md file for running Dijkstra_rigid.py file.")
