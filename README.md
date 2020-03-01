@@ -8,13 +8,10 @@ Arpit Aggarwal Markose Jacob
 ### Instructions for running the code
 To run the code for finding the path, follow the following commands:
 
-```
-python Dijkstra_point.py 'startRow (1 to 200)' 'startCol (1 to 300)' 'endRow (1 to 200)' 'endCol (1 to 300)'
-```
-For example, running the python file on my local setup was:
 
 ```
-python Dijkstra_point.py 20 10 100 100 
+cd codes
+python Dijkstra_point.py
 ```
 
 
