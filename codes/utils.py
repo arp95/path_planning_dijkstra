@@ -1,4 +1,4 @@
-# header files
+#.0 header files
 import numpy as np
 import cv2
 
@@ -216,6 +216,7 @@ class Dijkstra(object):
         # return if no optimal path
         if(distMap[self.goal] == float('inf')):
             return (explored_states, [], distMap[self.goal])
+
         
         # backtrack path
         backtrack_states = []
@@ -224,7 +225,8 @@ class Dijkstra(object):
             backtrack_states.append(node)
             node = path[node]
         backtrack_states.append(self.start)
-        backtrack_states = list(reversed(backtrack_states))      
+        backtrack_states = list(reversed(backtrack_states)) 
+        # print(backtrack_states)     
         return (explored_states, backtrack_states, distMap[self.goal])
     
     # animate path
@@ -242,4 +244,9 @@ class Dijkstra(object):
         for state in backtrack_states:
             image[int(self.numRows - state[0]), int(state[1] - 1)] = (0, 0, 255)
             out.write(image)
-        out.release()
+            cv2.imshow('result',image)
+            cv2.waitKey(5)
+
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        out.release

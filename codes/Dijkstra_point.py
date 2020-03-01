@@ -28,31 +28,67 @@ from utils import *
 import sys
 
 # take start and goal node as input
-args = sys.argv
-if(len(args) > 4):
-    startRow = float(args[1])
-    startCol = float(args[2])
-    goalRow = float(args[3])
-    goalCol = float(args[4])
+b = int(input("Enter the row coordinate for initial node (between 1 and 300) : "))
+a = int(input("Enter the column coordinate for initial node (between 1 and 200) : "))
+d = int(input("Enter the row coordinate for goal node (between 1 and 300) : "))
+c = int(input("Enter the column coordinate for goal node (between 1 and 200) : "))
+# print("Enter the row coorditate for initial node : ")
+# input(a)
 
-    # define constants
-    start = (startRow, startCol)
-    goal = (goalRow, goalCol)
-    clearance = 0
-    radius = 0
-    dijkstra = Dijkstra(start, goal, clearance, radius)
 
-    # find path
-    if(dijkstra.IsValid(start[0], start[1]) and dijkstra.IsValid(goal[0], goal[1]) and dijkstra.IsObstacle(start[0], start[1]) == False and dijkstra.IsObstacle(goal[0], goal[1]) == False):
-        (explored_states, backtrack_states, distance_from_start_to_goal) = dijkstra.Dijkstra()
-        dijkstra.animate(explored_states, backtrack_states, "./dijkstra_point.avi")
-    
-        # print optimal path found or not
-        if(distance_from_start_to_goal == float('inf')):
-            print("No optimal path found.")
-        else:
-            print("Optimal path found.")
-    else:
-        print("Invalid state entered. Please run the file again.")
+
+# args = sys.argv
+# if(len(args) > 4):
+# if(a<=300)&(a>=1)&(b<=200)&(b>=1)&(c<=300)&(c>=1)&(d<=200)&(d>=1):
+startRow = a
+startCol = b
+goalRow = c
+goalCol = d
+
+# define constants
+start = (startRow, startCol)
+goal = (goalRow, goalCol)
+clearance = 0
+radius = 0
+dijkstra = Dijkstra(start, goal, clearance, radius)
+
+if(dijkstra.IsValid(start[0], start[1])):
+	if(dijkstra.IsValid(goal[0], goal[1])):
+		if(dijkstra.IsObstacle(start[0],start[1]) == False):
+			if(dijkstra.IsObstacle(goal[0], goal[1]) == False):
+				(explored_states, backtrack_states, distance_from_start_to_goal) = dijkstra.Dijkstra()
+				dijkstra.animate(explored_states, backtrack_states, "./dijkstra_point.avi")
+				# print optimal path found or not
+				if(distance_from_start_to_goal == float('inf')):
+					print("No optimal path found.")
+				else:
+					print("Optimal path found.")
+			else:
+				print("The entered goal node is an obstacle ")
+				print("Please check README.md file for running Dijkstra_point.py file.")
+		else:
+			print("The entered initial node is an obstacle ")
+			print("Please check README.md file for running Dijkstra_point.py file.")
+	else:
+		print("The entered goal node outside the map ")
+		print("Please check README.md file for running Dijkstra_point.py file.")
 else:
-    print("Please check README.md file for running Dijkstra_point.py file.")
+	print("The entered initial node is outside the map ")
+	print("Please check README.md file for running Dijkstra_point.py file.")
+
+
+#     # find path
+#     if(dijkstra.IsValid(start[0], start[1]) and dijkstra.IsValid(goal[0], goal[1]) and dijkstra.IsObstacle(start[0], start[1]) == False and dijkstra.IsObstacle(goal[0], goal[1]) == False):
+#         (explored_states, backtrack_states, distance_from_start_to_goal) = dijkstra.Dijkstra()
+#         dijkstra.animate(explored_states, backtrack_states, "./dijkstra_point.avi")
+	
+#         # print optimal path found or not
+#         if(distance_from_start_to_goal == float('inf')):
+#             print("No optimal path found.")
+#         else:
+#             print("Optimal path found.")
+#     else:
+#         print("Invalid state entered. Please run the file again.")
+# else:
+#     print("The coordinates entered are wrong.")
+#     print("Please check README.md file for running Dijkstra_point.py file.")
