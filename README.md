@@ -26,4 +26,4 @@ python Dijkstra_rigid.py 20 10 100 100 1 1
 
 
 ### Software Required
-To run the .py files, use Python 3. Standard Python 3 libraries like numpy and OpenCV are used.
+To run the .py files, use Python 3. Standard Python 3 libraries like numpy, heapq and OpenCV are used.
