@@ -1,5 +1,6 @@
 #.0 header files
 import numpy as np
+from heapq import heappush, heappop
 import cv2
 
 # class for Dijkstra
@@ -153,70 +154,74 @@ class Dijkstra(object):
     def Dijkstra(self):
         # create hashmap to store distances
         distMap = {}
+        visited = {}
         path = {}
         for row in range(1, self.numRows + 1):
             for col in range(1, self.numCols + 1):
                 distMap[(row, col)] = float('inf')
                 path[(row, col)] = -1
+                visited[(row, col)] = False
             
         # create queue, push the source and mark distance from source to source as zero
-        (startRow, startCol) = self.start
         explored_states = []
         queue = []
-        queue.append(self.start)
+        heappush(queue, (0, self.start))
         distMap[self.start] = 0
     
         # run dijkstra algorithm and find shortest path
         while(len(queue) > 0):
-            currNode = queue[0]
+            _, currNode = heappop(queue)
+            visited[currNode] = True
             explored_states.append(currNode)
-            queue.pop(0)
+        
+            # if goal node then exit
+            if(currNode[0] == self.goal[0] and currNode[1] == self.goal[1]):
+                break
         
             # go through each edge of current node
-            if(self.ActionMoveLeft(currNode[0], currNode[1]) and (distMap[(currNode[0], currNode[1] - 1)] > distMap[currNode] + 1)):
+            if(self.ActionMoveLeft(currNode[0], currNode[1]) and visited[(currNode[0], currNode[1] - 1)] == False and (distMap[(currNode[0], currNode[1] - 1)] > distMap[currNode] + 1)):
                 distMap[(currNode[0], currNode[1] - 1)] = distMap[currNode] + 1
                 path[(currNode[0], currNode[1] - 1)] = currNode
-                queue.append((currNode[0], currNode[1] - 1))
+                heappush(queue, (distMap[(currNode[0], currNode[1] - 1)], (currNode[0], currNode[1] - 1)))
             
-            if(self.ActionMoveRight(currNode[0], currNode[1]) and (distMap[(currNode[0], currNode[1] + 1)] > distMap[currNode] + 1)):
+            if(self.ActionMoveRight(currNode[0], currNode[1]) and visited[(currNode[0], currNode[1] + 1)] == False and (distMap[(currNode[0], currNode[1] + 1)] > distMap[currNode] + 1)):
                 distMap[(currNode[0], currNode[1] + 1)] = distMap[currNode] + 1
                 path[(currNode[0], currNode[1] + 1)] = currNode
-                queue.append((currNode[0], currNode[1] + 1))
+                heappush(queue, (distMap[(currNode[0], currNode[1] + 1)], (currNode[0], currNode[1] + 1)))
             
-            if(self.ActionMoveUp(currNode[0], currNode[1]) and (distMap[(currNode[0] - 1, currNode[1])] > distMap[currNode] + 1)):
+            if(self.ActionMoveUp(currNode[0], currNode[1]) and visited[(currNode[0] - 1, currNode[1])] == False and (distMap[(currNode[0] - 1, currNode[1])] > distMap[currNode] + 1)):
                 distMap[(currNode[0] - 1, currNode[1])] = distMap[currNode] + 1
                 path[(currNode[0] - 1, currNode[1])] = currNode
-                queue.append((currNode[0] - 1, currNode[1]))
+                heappush(queue, (distMap[(currNode[0] - 1, currNode[1])], (currNode[0] - 1, currNode[1])))
             
-            if(self.ActionMoveDown(currNode[0], currNode[1]) and (distMap[(currNode[0] + 1, currNode[1])] > distMap[currNode] + 1)):
+            if(self.ActionMoveDown(currNode[0], currNode[1]) and visited[(currNode[0] + 1, currNode[1])] == False and (distMap[(currNode[0] + 1, currNode[1])] > distMap[currNode] + 1)):
                 distMap[(currNode[0] + 1, currNode[1])] = distMap[currNode] + 1
                 path[(currNode[0] + 1, currNode[1])] = currNode
-                queue.append((currNode[0] + 1, currNode[1]))
+                heappush(queue, (distMap[(currNode[0] + 1, currNode[1])], (currNode[0] + 1, currNode[1])))
             
-            if(self.ActionMoveLeftDown(currNode[0] + 1, currNode[1] - 1) and (distMap[(currNode[0] + 1, currNode[1] - 1)] > distMap[currNode] + 1.4142)):
+            if(self.ActionMoveLeftDown(currNode[0] + 1, currNode[1] - 1) and visited[(currNode[0] + 1, currNode[1] - 1)] == False and (distMap[(currNode[0] + 1, currNode[1] - 1)] > distMap[currNode] + 1.4142)):
                 distMap[(currNode[0] + 1, currNode[1] - 1)] = distMap[currNode] + 1.4142
                 path[(currNode[0] + 1, currNode[1] - 1)] = currNode
-                queue.append((currNode[0] + 1, currNode[1] - 1))
+                heappush(queue, (distMap[(currNode[0] + 1, currNode[1] - 1)], (currNode[0] + 1, currNode[1] - 1)))
             
-            if(self.ActionMoveRightDown(currNode[0], currNode[1]) and (distMap[(currNode[0] + 1, currNode[1] + 1)] > distMap[currNode] + 1.4142)):
+            if(self.ActionMoveRightDown(currNode[0], currNode[1]) and visited[(currNode[0] + 1, currNode[1] + 1)] == False and (distMap[(currNode[0] + 1, currNode[1] + 1)] > distMap[currNode] + 1.4142)):
                 distMap[(currNode[0] + 1, currNode[1] + 1)] = distMap[currNode] + 1.4142
                 path[(currNode[0] + 1, currNode[1] + 1)] = currNode
-                queue.append((currNode[0] + 1, currNode[1] + 1))
+                heappush(queue, (distMap[(currNode[0] + 1, currNode[1] + 1)], (currNode[0] + 1, currNode[1] + 1)))
             
-            if(self.ActionMoveRightUp(currNode[0], currNode[1]) and (distMap[(currNode[0] - 1, currNode[1] + 1)] > distMap[currNode] + 1.4142)):
+            if(self.ActionMoveRightUp(currNode[0], currNode[1]) and visited[(currNode[0] - 1, currNode[1] + 1)] == False and (distMap[(currNode[0] - 1, currNode[1] + 1)] > distMap[currNode] + 1.4142)):
                 distMap[(currNode[0] - 1, currNode[1] + 1)] = distMap[currNode] + 1.4142
                 path[(currNode[0] - 1, currNode[1] + 1)] = currNode
-                queue.append((currNode[0] - 1, currNode[1] + 1))
+                heappush(queue, (distMap[(currNode[0] - 1, currNode[1] + 1)], (currNode[0] - 1, currNode[1] + 1)))
             
-            if(self.ActionMoveLeftUp(currNode[0], currNode[1]) and (distMap[(currNode[0] - 1, currNode[1] - 1)] > distMap[currNode] + 1.4142)):
+            if(self.ActionMoveLeftUp(currNode[0], currNode[1]) and visited[(currNode[0] - 1, currNode[1] - 1)] == False and (distMap[(currNode[0] - 1, currNode[1] - 1)] > distMap[currNode] + 1.4142)):
                 distMap[(currNode[0] - 1, currNode[1] - 1)] = distMap[currNode] + 1.4142
                 path[(currNode[0] - 1, currNode[1] - 1)] = currNode
-                queue.append((currNode[0] - 1, currNode[1] - 1))
+                heappush(queue, (distMap[(currNode[0] - 1, currNode[1] - 1)], (currNode[0] - 1, currNode[1] - 1)))
         
         # return if no optimal path
         if(distMap[self.goal] == float('inf')):
             return (explored_states, [], distMap[self.goal])
-
         
         # backtrack path
         backtrack_states = []
@@ -225,28 +230,38 @@ class Dijkstra(object):
             backtrack_states.append(node)
             node = path[node]
         backtrack_states.append(self.start)
-        backtrack_states = list(reversed(backtrack_states)) 
-        # print(backtrack_states)     
+        backtrack_states = list(reversed(backtrack_states))      
         return (explored_states, backtrack_states, distMap[self.goal])
     
     # animate path
     def animate(self, explored_states, backtrack_states, path):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         out = cv2.VideoWriter(str(path), fourcc, 20.0, (self.numCols, self.numRows))
-        image = np.zeros((int(self.numRows), int(self.numCols), 3), dtype=np.uint8)
+        image = np.zeros((self.numRows, self.numCols, 3), dtype=np.uint8)
         count = 0
         for state in explored_states:
-            image[int(self.numRows - state[0]), int(state[1] - 1)] = (255, 255, 255)
-            if(count%100 == 0):
+            image[self.numRows - state[0], state[1] - 1] = (255, 255, 0)
+            if(count%80 == 0):
                 out.write(image)
             count = count + 1
 
-        for state in backtrack_states:
-            image[int(self.numRows - state[0]), int(state[1] - 1)] = (0, 0, 255)
-            out.write(image)
-            cv2.imshow('result',image)
-            cv2.waitKey(5)
-
+        count = 0
+        for row in range(1, self.numRows + 1):
+            for col in range(1, self.numCols + 1):
+                if(image[self.numRows - row, col - 1, 0] == 0 and image[self.numRows - row, col - 1, 1] == 0 and image[self.numRows - row, col - 1, 2] == 0):
+                    if(self.IsValid(row, col) and self.IsObstacle(row, col) == False):
+                        image[self.numRows - row, col - 1] = (154, 250, 0)
+                        if(count%80 == 0):
+                            out.write(image)
+                        count = count + 1
+            
+        if(len(backtrack_states) > 0):
+            for state in backtrack_states:
+                image[self.numRows - state[0], state[1] - 1] = (0, 0, 255)
+                out.write(image)
+                cv2.imshow('result', image)
+                cv2.waitKey(5)
+                
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-        out.release
+        out.release()

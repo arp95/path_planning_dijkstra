@@ -28,22 +28,10 @@ from utils import *
 import sys
 
 # take start and goal node as input
-b = int(input("Enter the row coordinate for initial node (between 1 and 300) : "))
-a = int(input("Enter the column coordinate for initial node (between 1 and 200) : "))
-d = int(input("Enter the row coordinate for goal node (between 1 and 300) : "))
-c = int(input("Enter the column coordinate for goal node (between 1 and 200) : "))
-# print("Enter the row coorditate for initial node : ")
-# input(a)
-
-
-
-# args = sys.argv
-# if(len(args) > 4):
-# if(a<=300)&(a>=1)&(b<=200)&(b>=1)&(c<=300)&(c>=1)&(d<=200)&(d>=1):
-startRow = a
-startCol = b
-goalRow = c
-goalCol = d
+startRow = int(input("Enter the row coordinate for start node (between 1 and 200) : "))
+startCol = int(input("Enter the column coordinate for start node (between 1 and 300) : "))
+goalRow = int(input("Enter the row coordinate for goal node (between 1 and 200) : "))
+goalCol = int(input("Enter the column coordinate for goal node (between 1 and 300) : "))
 
 # define constants
 start = (startRow, startCol)
