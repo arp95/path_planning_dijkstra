@@ -1,7 +1,7 @@
-# Project 2 - ENPM661
+# Path Planning using Dijkstra Algorithm
 
 
-### Author
+### Authors
 Arpit Aggarwal Markose Jacob
 
 
@@ -16,12 +16,7 @@ python Dijkstra_point.py
 
 
 ```
-python Dijkstra_rigid.py 'startRow (1 to 200)' 'startCol (1 to 300)' 'endRow (1 to 200)' 'endCol (1 to 300)' 'clearance' 'radius'
-```
-For example, running the python file on my local setup was:
-
-```
-python Dijkstra_rigid.py 20 10 100 100 1 1
+python Dijkstra_rigid.py
 ```
 
 
