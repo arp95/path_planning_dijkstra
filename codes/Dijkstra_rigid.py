@@ -37,25 +37,8 @@ clearance = int(input("Enter the clearance for the robot : "))
 # take start and goal node as input
 start = (startRow, startCol)
 goal = (goalRow, goalCol)
-# clearance = 0
-# radius = 0
 dijkstra = Dijkstra(start, goal, clearance, radius)
 
-# if(len(args) > 6):
-#     startRow = float(args[1])
-#     startCol = float(args[2])
-#     goalRow = float(args[3])
-#     goalCol = float(args[4])
-#     clearance = float(args[5])
-#     radius = float(args[6])   
-
-#     # define constants
-#     start = (startRow, startCol)
-#     goal = (goalRow, goalCol)
-    # dijkstra = Dijkstra(start, goal, clearance, radius)
-
-    # find path
-    # if(dijkstra.IsValid(start[0], start[1]) and dijkstra.IsValid(goal[0], goal[1]) and dijkstra.IsObstacle(start[0], start[1]) == False and dijkstra.IsObstacle(goal[0], goal[1]) == False):
 if(dijkstra.IsValid(start[0], start[1])):
     if(dijkstra.IsValid(goal[0], goal[1])):
         if(dijkstra.IsObstacle(start[0],start[1]) == False):
@@ -69,23 +52,13 @@ if(dijkstra.IsValid(start[0], start[1])):
                     print("\nOptimal path found. Distance is " + str(distance_from_start_to_goal))
             else:
                 print("The entered goal node is an obstacle ")
-                print("Please check README.md file for running Dijkstra_point.py file.")
+                print("Please check README.md file for running Dijkstra_rigid.py file.")
         else:
             print("The entered initial node is an obstacle ")
-            print("Please check README.md file for running Dijkstra_point.py file.")
+            print("Please check README.md file for running Dijkstra_rigid.py file.")
     else:
         print("The entered goal node outside the map ")
-        print("Please check README.md file for running Dijkstra_point.py file.")
+        print("Please check README.md file for running Dijkstra_rigid.py file.")
 else:
     print("The entered initial node is outside the map ")
-    print("Please check README.md file for running Dijkstra_point.py file.")
-    
-#         # print optimal path found or not
-#         if(distance_from_start_to_goal == float('inf')):
-#             print("No optimal path found.")
-#         else:
-#             print("Optimal path found.")
-#     else:
-#         print("Invalid state entered. Please run the file again.")
-# else:
-#     print("Please check README.md file for running Dijkstra_rigid.py file.")
+    print("Please check README.md file for running Dijkstra_rigid.py file.")

@@ -241,7 +241,7 @@ class Dijkstra(object):
         image = np.zeros((self.numRows, self.numCols, 3), dtype=np.uint8)
         count = 0
         for state in explored_states:
-            image[self.numRows - state[0], state[1] - 1] = (255, 255, 0)
+            image[int(self.numRows - state[0]), int(state[1] - 1)] = (255, 255, 0)
             if(count%80 == 0):
                 out.write(image)
             count = count + 1
@@ -249,16 +249,16 @@ class Dijkstra(object):
         count = 0
         for row in range(1, self.numRows + 1):
             for col in range(1, self.numCols + 1):
-                if(image[self.numRows - row, col - 1, 0] == 0 and image[self.numRows - row, col - 1, 1] == 0 and image[self.numRows - row, col - 1, 2] == 0):
+                if(image[int(self.numRows - row), int(col - 1), 0] == 0 and image[int(self.numRows - row), int(col - 1), 1] == 0 and image[int(self.numRows - row), int(col - 1), 2] == 0):
                     if(self.IsValid(row, col) and self.IsObstacle(row, col) == False):
-                        image[self.numRows - row, col - 1] = (154, 250, 0)
+                        image[int(self.numRows - row), int(col - 1)] = (154, 250, 0)
                         if(count%80 == 0):
                             out.write(image)
                         count = count + 1
             
         if(len(backtrack_states) > 0):
             for state in backtrack_states:
-                image[self.numRows - state[0], state[1] - 1] = (0, 0, 255)
+                image[int(self.numRows - state[0]), int(state[1] - 1)] = (0, 0, 255)
                 out.write(image)
                 cv2.imshow('result', image)
                 cv2.waitKey(5)
