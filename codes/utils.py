@@ -230,7 +230,8 @@ class Dijkstra(object):
             backtrack_states.append(node)
             node = path[node]
         backtrack_states.append(self.start)
-        backtrack_states = list(reversed(backtrack_states))      
+        backtrack_states = list(reversed(backtrack_states))  
+        # print(backtrack_states)    
         return (explored_states, backtrack_states, distMap[self.goal])
     
     # animate path
