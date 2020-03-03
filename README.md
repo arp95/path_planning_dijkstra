@@ -16,6 +16,7 @@ python Dijkstra_point.py
 
 
 ```
+cd codes
 python Dijkstra_rigid.py
 ```
 
