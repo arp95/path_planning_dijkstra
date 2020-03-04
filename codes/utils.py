@@ -1,4 +1,4 @@
-#.0 header files
+# header files
 import numpy as np
 from heapq import heappush, heappop
 import cv2
@@ -224,8 +224,7 @@ class Dijkstra(object):
             backtrack_states.append(node)
             node = path[node]
         backtrack_states.append(self.start)
-        backtrack_states = list(reversed(backtrack_states))  
-        # print(backtrack_states)    
+        backtrack_states = list(reversed(backtrack_states))    
         return (explored_states, backtrack_states, distMap[self.goal])
     
     # animate path
@@ -236,7 +235,7 @@ class Dijkstra(object):
         count = 0
         for state in explored_states:
             image[int(self.numRows - state[0]), int(state[1] - 1)] = (255, 255, 0)
-            if(count%80 == 0):
+            if(count%75 == 0):
                 out.write(image)
             count = count + 1
 
@@ -246,7 +245,7 @@ class Dijkstra(object):
                 if(image[int(self.numRows - row), int(col - 1), 0] == 0 and image[int(self.numRows - row), int(col - 1), 1] == 0 and image[int(self.numRows - row), int(col - 1), 2] == 0):
                     if(self.IsValid(row, col) and self.IsObstacle(row, col) == False):
                         image[int(self.numRows - row), int(col - 1)] = (154, 250, 0)
-                        if(count%80 == 0):
+                        if(count%75 == 0):
                             out.write(image)
                         count = count + 1
             
