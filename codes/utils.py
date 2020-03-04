@@ -25,33 +25,44 @@ class Dijkstra(object):
         sqrt_of_c_and_r = 1.4142 * sum_of_c_and_r
         
         # check circle
-        dist1 = ((row - 150) * (row - 150) + (col - 225) * (col - 225)) - ((25 + sum_of_c_and_r)*(25 + sum_of_c_and_r))
+        dist1 = ((row - 150) * (row - 150) + (col - 225) * (col - 225)) - ((25 + sum_of_c_and_r) * (25 + sum_of_c_and_r))
         
         # check eclipse
-        dist2 = ((((row - 100) * (row - 100)) / ((20 + sum_of_c_and_r) * (20 + sum_of_c_and_r))) + (((col - 150) * (col - 150))/((40 + sum_of_c_and_r) * (40 + sum_of_c_and_r)))) - 1
+        dist2 = ((((row - 100) * (row - 100)) / ((20 + sum_of_c_and_r) * (20 + sum_of_c_and_r))) + (((col - 150) * (col - 150)) / ((40 + sum_of_c_and_r) * (40 + sum_of_c_and_r)))) - 1
         
         # check triangles
-        first = ((col - 20 + (1.205 * sum_of_c_and_r)) * (30 - sqrt_of_c_and_r + (2.62 * sum_of_c_and_r))) - ((30 + (1.205 * sum_of_c_and_r)) * (row - 120 + (2.62 * sum_of_c_and_r)))
-        second = ((col - 20 + (1.205 * sum_of_c_and_r)) * ((185 + sum_of_c_and_r) - (120 - (2.62 * sum_of_c_and_r)))) - ((5 + (0.2803 * sum_of_c_and_r)) * (row - 120 + (2.62 * sum_of_c_and_r)))
-        third = ((col - 50) * (35 + sqrt_of_c_and_r + sum_of_c_and_r)) - ((-25 - (0.9247 * sum_of_c_and_r)) * (row - 150 + sqrt_of_c_and_r))
+        (x1, y1) = (120 - (2.62 * sum_of_c_and_r), 20 - (1.205 * sum_of_c_and_r))
+        (x2, y2) = (150 - sqrt_of_c_and_r, 50)
+        (x3, y3) = (185 + sum_of_c_and_r, 25 - (sum_of_c_and_r * 0.9247))
+        first = ((col - y1) * (x2 - x1)) - ((y2 - y1) * (row - x1))
+        second = ((col - y2) * (x3 - x2)) - ((y3 - y2) * (row - x2))
+        third = ((col - y3) * (x1 - x3)) - ((y1 - y3) * (row - x3))
         dist3 = 1
-        if(first <= 0 and second >= 0 and third <= 0):
+        if(first <= 0 and second <= 0 and third <= 0):
             dist3 = 0
-        first = ((col - 50) * (35 + sqrt_of_c_and_r + sum_of_c_and_r)) - ((25 + (0.5148 * sum_of_c_and_r)) * (row - 150 + sqrt_of_c_and_r))
-        second = -((50 + (1.4395 * sum_of_c_and_r)) * (row - 185 - sum_of_c_and_r))
-        third = ((col - 50) * (35 + sqrt_of_c_and_r + sum_of_c_and_r)) - ((-25 - (0.9247 * sum_of_c_and_r)) * (row - 150 + sqrt_of_c_and_r))
+            
+        (x1, y1) = (150 - sqrt_of_c_and_r, 50)
+        (x2, y2) = (185 + sum_of_c_and_r, 25 - (sum_of_c_and_r * 0.9247))
+        (x3, y3) = (185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
+        first = ((col - y1) * (x2 - x1)) - ((y2 - y1) * (row - x1))
+        second = ((col - y2) * (x3 - x2)) - ((y3 - y2) * (row - x2))
+        third = ((col - y3) * (x1 - x3)) - ((y1 - y3) * (row - x3))
         dist4 = 1
-        if(first <= 0 and second >= 0 and third >= 0):
+        if(first >= 0 and second >= 0 and third >= 0):
             dist4 = 0
         
         # check rhombus
-        first = ((col - 225) * (15 + sqrt_of_c_and_r)) - ((25 + sqrt_of_c_and_r) * (row - 10 + sqrt_of_c_and_r))
-        second = ((col - 225) * (15 + sqrt_of_c_and_r)) - ((-25 - sqrt_of_c_and_r) * (row - 10 + sqrt_of_c_and_r))
-        third = ((col - 200 + sqrt_of_c_and_r) * (15 + sqrt_of_c_and_r)) - ((25 + sqrt_of_c_and_r) * (row - 25))
-        fourth = ((col - 225) * (-15 - sqrt_of_c_and_r)) - ((25 + sqrt_of_c_and_r) * (row - 40 - sqrt_of_c_and_r))
+        (x1, y1) = (10 - sqrt_of_c_and_r, 225)
+        (x2, y2) = (25, 200 - sqrt_of_c_and_r)
+        (x3, y3) = (40 + sqrt_of_c_and_r, 225)
+        (x4, y4) = (25, 250 + sqrt_of_c_and_r)
+        first = ((col - y1) * (x2 - x1)) - ((y2 - y1) * (row - x1))
+        second = ((col - y2) * (x3 - x2)) - ((y3 - y2) * (row - x2))
+        third = ((col - y3) * (x4 - x3)) - ((y4 - y3) * (row - x3))
+        fourth = ((col - y4) * (x1 - x4)) - ((y1 - y4) * (row - x4))
         dist5 = 1
         dist6 = 1
-        if(first <= 0 and second >= 0 and third >= 0 and fourth >= 0):
+        if(first >= 0 and second >= 0 and third >= 0 and fourth >= 0):
             dist5 = 0
             dist6 = 0
         
