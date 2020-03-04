@@ -13,10 +13,6 @@ class Dijkstra(object):
         self.numCols = 300
         self.clearance = clearance
         self.radius = radius
-
-    # calculate triangle area
-    def area(self, x1, y1, x2, y2, x3, y3):
-        return np.abs((x1*(y2-y3) + x2*(y3-y1)+ x3*(y1-y2))/2.0)  
         
     # move is valid 
     def IsValid(self, currRow, currCol):
@@ -35,67 +31,54 @@ class Dijkstra(object):
         dist2 = ((((row - 100) * (row - 100)) / ((20 + sum_of_c_and_r) * (20 + sum_of_c_and_r))) + (((col - 150) * (col - 150))/((40 + sum_of_c_and_r) * (40 + sum_of_c_and_r)))) - 1
         
         # check triangles
-        area1 = self.area(120 - (2.62 * sum_of_c_and_r), 20 - (1.205 * sum_of_c_and_r), 150 - sqrt_of_c_and_r, 50, 185 + sum_of_c_and_r, 25 - (sum_of_c_and_r * 0.9247))
-        area2 = self.area(row, col, 150 - sqrt_of_c_and_r, 50, 185 + sum_of_c_and_r, 25 - (sum_of_c_and_r * 0.9247))
-        area3 = self.area(120 - (2.62 * sum_of_c_and_r), 20 - (1.205 * sum_of_c_and_r), row, col, 185 + sum_of_c_and_r, 25 - (sum_of_c_and_r * 0.9247))
-        area4 = self.area(120 - (2.62 * sum_of_c_and_r), 20 - (1.205 * sum_of_c_and_r), 150 - sqrt_of_c_and_r, 50, row, col)
-        dist3 = (area2 + area3 + area4) - area1
-        if(dist3 < 1e-5):
+        first = ((col - 20 + (1.205 * sum_of_c_and_r)) * (30 - sqrt_of_c_and_r + (2.62 * sum_of_c_and_r))) - ((30 + (1.205 * sum_of_c_and_r)) * (row - 120 + (2.62 * sum_of_c_and_r)))
+        second = ((col - 20 + (1.205 * sum_of_c_and_r)) * ((185 + sum_of_c_and_r) - (120 - (2.62 * sum_of_c_and_r)))) - ((5 + (0.2803 * sum_of_c_and_r)) * (row - 120 + (2.62 * sum_of_c_and_r)))
+        third = ((col - 50) * (35 + sqrt_of_c_and_r + sum_of_c_and_r)) - ((-25 - (0.9247 * sum_of_c_and_r)) * (row - 150 + sqrt_of_c_and_r))
+        dist3 = 1
+        if(first <= 0 and second >= 0 and third <= 0):
             dist3 = 0
-        area1 = self.area(150 - sqrt_of_c_and_r, 50, 185 + sum_of_c_and_r, 25 - (sum_of_c_and_r * 0.9247), 185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
-        area2 = self.area(row, col, 185 + sum_of_c_and_r, 25 - (sum_of_c_and_r * 0.9247), 185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
-        area3 = self.area(150 - sqrt_of_c_and_r, 50, row, col, 185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
-        area4 = self.area(150 - sqrt_of_c_and_r, 50, 185 + sum_of_c_and_r, 25 - (sum_of_c_and_r * 0.9247), row, col)
-        dist4 = (area2 + area3 + area4) - area1
-        if(dist4 < 1e-5):
+        first = ((col - 50) * (35 + sqrt_of_c_and_r + sum_of_c_and_r)) - ((25 + (0.5148 * sum_of_c_and_r)) * (row - 150 + sqrt_of_c_and_r))
+        second = -((50 + (1.4395 * sum_of_c_and_r)) * (row - 185 - sum_of_c_and_r))
+        third = ((col - 50) * (35 + sqrt_of_c_and_r + sum_of_c_and_r)) - ((-25 - (0.9247 * sum_of_c_and_r)) * (row - 150 + sqrt_of_c_and_r))
+        dist4 = 1
+        if(first <= 0 and second >= 0 and third >= 0):
             dist4 = 0
         
         # check rhombus
-        area1 = self.area(10 - sqrt_of_c_and_r, 225, 25, 200 - sqrt_of_c_and_r, 40 + sqrt_of_c_and_r, 225)
-        area2 = self.area(row, col, 25, 200 - sqrt_of_c_and_r, 40 + sqrt_of_c_and_r, 225)
-        area3 = self.area(10 - sqrt_of_c_and_r, 225, row, col, 40 + sqrt_of_c_and_r, 225)
-        area4 = self.area(10 - sqrt_of_c_and_r, 225, 25, 200 - sqrt_of_c_and_r, row, col)
-        dist5 = (area2 + area3 + area4) - area1
-        if(dist5 < 1e-5):
+        first = ((col - 225) * (15 + sqrt_of_c_and_r)) - ((25 + sqrt_of_c_and_r) * (row - 10 + sqrt_of_c_and_r))
+        second = ((col - 225) * (15 + sqrt_of_c_and_r)) - ((-25 - sqrt_of_c_and_r) * (row - 10 + sqrt_of_c_and_r))
+        third = ((col - 200 + sqrt_of_c_and_r) * (15 + sqrt_of_c_and_r)) - ((25 + sqrt_of_c_and_r) * (row - 25))
+        fourth = ((col - 225) * (-15 - sqrt_of_c_and_r)) - ((25 + sqrt_of_c_and_r) * (row - 40 - sqrt_of_c_and_r))
+        dist5 = 1
+        dist6 = 1
+        if(first <= 0 and second >= 0 and third >= 0 and fourth >= 0):
             dist5 = 0
-        area1 = self.area(10 - sqrt_of_c_and_r, 225, 25, 250 + sqrt_of_c_and_r, 40 + sqrt_of_c_and_r, 225)
-        area2 = self.area(row, col, 25, 250 + sqrt_of_c_and_r, 40 + sqrt_of_c_and_r, 225)
-        area3 = self.area(10 - sqrt_of_c_and_r, 225, row, col, 40 + sqrt_of_c_and_r, 225)
-        area4 = self.area(10 - sqrt_of_c_and_r, 225, 25, 250 + sqrt_of_c_and_r, row, col)
-        dist6 = (area2 + area3 + area4) - area1
-        if(dist6 < 1e-5):
             dist6 = 0
         
         # check square
-        area1 = self.area(120 - sqrt_of_c_and_r, 75, 150 - sqrt_of_c_and_r, 50, 185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
-        area2 = self.area(row, col, 150 - sqrt_of_c_and_r, 50, 185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
-        area3 = self.area(120 - sqrt_of_c_and_r, 75, row, col, 185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
-        area4 = self.area(120 - sqrt_of_c_and_r, 75, 150 - sqrt_of_c_and_r, 50, row, col)
-        dist7 = (area2 + area3 + area4) - area1
-        if(dist7 < 1e-5):
+        (x1, y1) = (150 - sqrt_of_c_and_r, 50)
+        (x2, y2) = (120 - sqrt_of_c_and_r, 75)
+        (x3, y3) = (150, 100 + sqrt_of_c_and_r)
+        (x4, y4) = (185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
+        first = ((col - y1) * (x2 - x1)) - ((y2 - y1) * (row - x1))
+        second = ((col - y2) * (x3 - x2)) - ((y3 - y2) * (row - x2))
+        third = ((col - y3) * (x4 - x3)) - ((y4 - y3) * (row - x3))
+        fourth = ((col - y4) * (x1 - x4)) - ((y1 - y4) * (row - x4))
+        dist7 = 1
+        dist8 = 1
+        if(first <= 0 and second <= 0 and third <= 0 and fourth <= 0):
             dist7 = 0
-        area1 = self.area(120 - sqrt_of_c_and_r, 75, 150, 100 + sqrt_of_c_and_r, 185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
-        area2 = self.area(row, col, 150, 100 + sqrt_of_c_and_r, 185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
-        area3 = self.area(120 - sqrt_of_c_and_r, 75, row, col, 185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
-        area4 = self.area(120 - sqrt_of_c_and_r, 75, 150, 100 + sqrt_of_c_and_r, row, col)
-        dist8 = (area2 + area3 + area4) - area1
-        if(dist8 < 1e-5):
             dist8 = 0
         
         # check rod
-        area1 = self.area(30 - sqrt_of_c_and_r, 95, 67.5, 30.05 - sqrt_of_c_and_r, 76.15 + sqrt_of_c_and_r, 35.5)
-        area2 = self.area(row, col, 67.5, 30.05 - sqrt_of_c_and_r, 76.15 + sqrt_of_c_and_r, 35.5)
-        area3 = self.area(30 - sqrt_of_c_and_r, 95, row, col, 76.15 + sqrt_of_c_and_r, 35.5)
-        area4 = self.area(30 - sqrt_of_c_and_r, 95, 67.5, 30.05 - sqrt_of_c_and_r, row, col)
-        dist9 = (area2 + area3 + area4) - area1
-        if(dist9 < 1e-5):
+        first = ((col - 95) * (8.66 + sqrt_of_c_and_r)) - ((5 + sqrt_of_c_and_r) * (row - 30 + sqrt_of_c_and_r))
+        second = ((col - 95) * (37.5 + sqrt_of_c_and_r)) - ((-64.95 - sqrt_of_c_and_r) * (row - 30 + sqrt_of_c_and_r))
+        third = ((col - 30.05 + sqrt_of_c_and_r) * (8.65 + sqrt_of_c_and_r)) - ((5.45 + sqrt_of_c_and_r) * (row - 67.5))
+        fourth = ((col - 35.5) * (-37.49 - sqrt_of_c_and_r)) - ((64.5 + sqrt_of_c_and_r) * (row - 76.15 - sqrt_of_c_and_r))
+        dist9 = 1
+        dist10 = 1
+        if(first <= 0 and second >= 0 and third >= 0 and fourth >= 0):
             dist9 = 0
-        area1 = self.area(30 - sqrt_of_c_and_r, 95, 76.15 + sqrt_of_c_and_r, 35.5, 38.66, 100 + sqrt_of_c_and_r)
-        area2 = self.area(row, col, 76.15 + sqrt_of_c_and_r, 35.5, 38.66, 100 + sqrt_of_c_and_r)
-        area3 = self.area(30 - sqrt_of_c_and_r, 95, row, col, 38.66, 100 + sqrt_of_c_and_r)
-        area4 = self.area(30 - sqrt_of_c_and_r, 95, 76.15 + sqrt_of_c_and_r, 35.5, row, col)
-        dist10 = (area2 + area3 + area4) - area1
-        if(dist10 < 1e-5):
             dist10 = 0
         
         if(dist1 <= 0 or dist2 <= 0 or dist3 == 0 or dist4 == 0 or dist5 == 0 or dist6 == 0 or dist7 == 0 or dist8 == 0 or dist9 == 0 or dist10 == 0):
