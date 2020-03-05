@@ -43,7 +43,7 @@ class Dijkstra(object):
             
         (x1, y1) = (150 - sqrt_of_c_and_r, 50)
         (x2, y2) = (185 + sum_of_c_and_r, 25 - (sum_of_c_and_r * 0.9247))
-        (x3, y3) = (185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
+        (x3, y3) = (185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.714))
         first = ((col - y1) * (x2 - x1)) - ((y2 - y1) * (row - x1))
         second = ((col - y2) * (x3 - x2)) - ((y3 - y2) * (row - x2))
         third = ((col - y3) * (x1 - x3)) - ((y1 - y3) * (row - x3))
@@ -70,7 +70,7 @@ class Dijkstra(object):
         (x1, y1) = (150 - sqrt_of_c_and_r, 50)
         (x2, y2) = (120 - sqrt_of_c_and_r, 75)
         (x3, y3) = (150, 100 + sqrt_of_c_and_r)
-        (x4, y4) = (185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.5148))
+        (x4, y4) = (185 + sum_of_c_and_r, 75 + (sum_of_c_and_r * 0.714))
         first = ((col - y1) * (x2 - x1)) - ((y2 - y1) * (row - x1))
         second = ((col - y2) * (x3 - x2)) - ((y3 - y2) * (row - x2))
         third = ((col - y3) * (x4 - x3)) - ((y4 - y3) * (row - x3))
@@ -193,7 +193,7 @@ class Dijkstra(object):
                 path[(currNode[0] + 1, currNode[1])] = currNode
                 heappush(queue, (distMap[(currNode[0] + 1, currNode[1])], (currNode[0] + 1, currNode[1])))
             
-            if(self.ActionMoveLeftDown(currNode[0] + 1, currNode[1] - 1) and visited[(currNode[0] + 1, currNode[1] - 1)] == False and (distMap[(currNode[0] + 1, currNode[1] - 1)] > distMap[currNode] + 1.4142)):
+            if(self.ActionMoveLeftDown(currNode[0], currNode[1]) and visited[(currNode[0] + 1, currNode[1] - 1)] == False and (distMap[(currNode[0] + 1, currNode[1] - 1)] > distMap[currNode] + 1.4142)):
                 distMap[(currNode[0] + 1, currNode[1] - 1)] = distMap[currNode] + 1.4142
                 path[(currNode[0] + 1, currNode[1] - 1)] = currNode
                 heappush(queue, (distMap[(currNode[0] + 1, currNode[1] - 1)], (currNode[0] + 1, currNode[1] - 1)))
